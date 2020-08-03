@@ -269,6 +269,21 @@ ruleTester.run('prefer-includes', rule, {
       `,
       errors: [{ messageId: 'preferStringIncludes' }],
     },
+    {
+      code: `
+        const pattern = /bar/
+        function f(a: any): void {
+          pattern.test(a)
+        }
+      `,
+      output: `
+        const pattern = /bar/
+        function f(a: any): void {
+          typeof a === "string" && a.includes("bar")
+        }
+      `,
+      errors: [{ messageId: 'preferStringIncludes' }],
+    },
 
     // type variation
     {
